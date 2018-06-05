@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>CodeNicely|Sign-Up</title>
+        {% load staticfiles %}
+        <link href="{% static 'material/css/materialize.css' %}" type="text/css" rel="stylesheet"/>
+        <link href="{% static 'material/css/style.css' %}" type="text/css" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    </head>
+
+    <body>
+        <nav class="white" role="navigation">
+            <div class="nav-wrapper container">
+                <a id="logo-container" class="brand-logo">CodeNicely</a>
+                <ul class="right hide-on-med-and-down">
+                    <li><a href="/login">Login</a></li>
+                    <li class="active"><a>Sign-Up</a></li>
+                </ul>
+
+                <ul id="nav-mobile" class="sidenav">
+                    <li><a href="/login">Login</a></li>
+                    <li class="active"><a>Sign-Up</a></li>
+                </ul>
+                <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons icon-gray">menu</i></a>
+            </div>
+        </nav>
+        <br><br>
+        <div class="container">
+            <div class="row">
+                <form class="col s12 m8  offset-l3" method="POST" action="" onsubmit="return checkForm(this);">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <input id="name" name="name" type="text" class="validate" required="">
+                            <label for="name">Name</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <input id="email" name="email" type="email" class="validate" required="">
+                            <label for="email">Email</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <input id="password" name="password" type="password" class="validate" required="">
+                            <label for="password">Password</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <input id="repassword" type="password" class="validate" required="">
+                            <label for="repassword">Re-enter Password</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <input type="submit" name="register" class="waves-effect waves-light btn" value="Register">
+                        </div>
+                    </div>
+                    {{ form.as_p }}
+                </form>
+            </div>
+        </div>
+        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+        <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+        <script src="{% static 'material/js/materialize.js' %}"></script>
+        <script src="{% static 'material/js/init.js' %}"></script>
+        <script type="text/javascript">
+          function checkForm(form)
+          {
+            if(form.password.value != form.repassword.value) {
+                alert("Error: Password Didn't Match!!");
+                form.pwd1.focus();
+                return false;
+            }
+            return true;
+          }
+        </script>
+
+        {% block javascript %}
+        <script>
+            $("#email").change(function () {
+              var email = $(this).val();
+              $.ajax({
+                url: '/ajax/validate_emai/',
+                data: {
+                  'email': email
+                },
+                dataType: 'json',
+                success: function (data) {
+                  if (data.is_taken) {
+                    alert("A user with this username already exists.");
+                    $("#email").val("");
+                  }
+                }
+              });
+
+            });
+          </script>
+        {% endblock %}
+
+    </body>
+
+</html>
