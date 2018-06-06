@@ -1,80 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CodeNicely|Edit Profile</title>
+    {% load staticfiles %}
+    <link href="{% static 'material/css/materialize.css' %}" type="text/css" rel="stylesheet"/>
+    <link href="{% static 'material/css/style.css' %}" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-    <head>
-        <meta charset="UTF-8">
-        <title>CodeNicely|Sign-Up</title>
-        {% load staticfiles %}
-        <link href="{% static 'material/css/materialize.css' %}" type="text/css" rel="stylesheet"/>
-        <link href="{% static 'material/css/style.css' %}" type="text/css" rel="stylesheet"/>
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    </head>
 
-    <body>
-        <nav class="white" role="navigation">
-            <div class="nav-wrapper container">
-                <a id="logo-container" class="brand-logo">CodeNicely</a>
-                <ul class="right hide-on-med-and-down">
-                    <li><a href="/login">Login</a></li>
-                    <li class="active"><a>Sign-Up</a></li>
-                </ul>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="{% static 'material/js/materialize.js' %}"></script>
+    <script src="{% static 'material/js/init.js' %}"></script>
 
-                <ul id="nav-mobile" class="sidenav">
-                    <li><a href="/login">Login</a></li>
-                    <li class="active"><a>Sign-Up</a></li>
-                </ul>
-                <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons icon-gray">menu</i></a>
-            </div>
-        </nav>
-        <br><br>
-        <div class="container">
-            <div class="row">
-                <form class="col s12 m8  offset-l3" method="POST" action="" onsubmit="return checkForm(this);">
-                    {% csrf_token %}
-                    <div class="row">
-                        <div class="input-field col s6">
-                            <input id="name" name="name" type="text" class="validate" required="">
-                            <label for="name">Name</label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="input-field col s6">
-                            <input id="email" name="email" type="email" class="validate" required="">
-                            <label for="email">Email</label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="input-field col s6">
-                            <input id="password" name="password" type="password" class="validate" required="">
-                            <label for="password">Password</label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="input-field col s6">
-                            <input id="repassword" type="password" class="validate" required="">
-                            <label for="repassword">Re-enter Password</label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="input-field col s6">
-                            <input type="submit" name="register" class="waves-effect waves-light btn" value="Register">
-                        </div>
-                    </div>
-                    {{ form.as_p }}
-                </form>
-            </div>
-        </div>
-        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-        <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-        <script src="{% static 'material/js/materialize.js' %}"></script>
-        <script src="{% static 'material/js/init.js' %}"></script>
+    <script>
+
+            $(function () {
+              $('input.autocomplete').autocomplete({
+                data: {
+                  "Apple": null,
+                  "Microsoft": null,
+                  "Google": 'http://placehold.it/250x250'
+                }
+              });
+            });
+
+            $(document).ready(function(){
+                $('#autocomplete-input').autocomplete({
+                    data: {
+                        "Apple": null,
+                        "Microsoft": null,
+                        "Google": null,
+                    },
+                    onAutocomplete:function(){
+                        console.log("hi");
+                    }
+                });
+                $('.modal').modal();
+                $('.datepicker').datepicker();
+            });
+    </script>
+
+        <script>
+            $("#loginform").submit(function() {
+                $("#loader").show();
+                $("#button").hide();
+                $('.modal').modal(close());
+            });
+        </script>
+
         <script type="text/javascript">
           function checkForm(form)
           {
             if(form.password.value != form.repassword.value) {
                 alert("Error: Password Didn't Match!!");
-                form.pwd1.focus();
+                form.password.focus();
                 return false;
             }
             return true;
@@ -102,6 +82,202 @@
             });
           </script>
         {% endblock %}
+
+        <script>
+            $("#image").change(function() {
+                M.toast({html: 'Please Wait while we check your Image !!', classes: 'rounded', displayLength: 2000});
+                $("#loader").show()
+                $("#button").hide()
+
+                var file = this.files[0];
+                var fileType = file["type"];
+                console.log(fileType);
+                var validImageTypes = ["image/gif", "image/jpeg", "image/png"];
+                console.log(validImageTypes);
+                if ($.inArray(fileType, validImageTypes) > 0) {
+
+                    var maxFileSize = 2048000;
+                    var fileSize;
+                    fileSize = this.files[0].size;
+
+                    if (fileSize < maxFileSize) {
+                        setTimeout(function() {
+                            $("#loader").hide()
+                            $("#button").show()
+                            M.toast({html: 'You can now Register !!', classes: 'rounded', displayLength: 2000});
+                        }, 3000);
+                    } else {
+                        setTimeout(function() {
+                            $("#loader").hide()
+                            $("#button").show()
+                            $("#button").val("")
+                            M.toast({html: 'Image Too big !!', classes: 'rounded', displayLength: 2000});
+                        }, 3000);
+                    }
+                }
+                else{
+                    setTimeout(function() {
+                            $("#loader").hide()
+                            $("#button").show()
+                            $("#button").val("")
+                            M.toast({html: 'Select an Image to uplooad !!', classes: 'rounded', displayLength: 2000});
+                        }, 3000);
+                }
+            });
+        </script>
+
+
+</head>
+<body>
+
+    <nav class="white" role="navigation">
+            <div class="nav-wrapper container">
+                <a id="logo-container" class="brand-logo">CodeNicely</a>
+                <ul class="right hide-on-med-and-down">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/login">Login</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                </ul>
+
+                <ul id="nav-mobile" class="sidenav">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/login">login</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                </ul>
+                <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons icon-gray">menu</i></a>
+            </div>
+    </nav>
+
+    <div class="container">
+        <br>
+            <div class="row">
+                <form class="col s12 m8  offset-l3" method="POST" enctype="multipart/form-data" action="" id="loginform" onsubmit="return checkForm(this);">
+                    {% csrf_token %}
+
+                    <div class="row">
+                        <div class="input-field col s12 m8">
+                            <i class="material-icons prefix">person</i>
+                            <input id="name" name="name" type="text" class="validate" required="">
+                            <label for="name">Name</label>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="input-field col s12 m8">
+                            <i class="material-icons prefix">email</i>
+                            <input id="email" name="email" type="email" class="validate" required="">
+                            <label for="email">Email</label>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="input-field col s12 m8">
+                            <i class="material-icons prefix">location_on</i>
+                                <input type="search" id="autocomplete-input" name="city" class="autocomplete">
+                            <label for="autocomplete-input">City</label>
+                        </div>
+                    </div>
+
+                    <p>
+                        <label>
+                            <input name="gender" type="radio" value="Male" checked />
+                            <span class="black-text">Male</span>
+                        </label>
+                    </p>
+                    <p>
+                        <label>
+                            <input name="gender" value="Female" type="radio" />
+                            <span class="black-text">Female</span>
+                        </label>
+                    </p>
+                    <div class="row">
+                        <div class="input-field col s12 m8">
+                            <i class="material-icons prefix">date_range</i>
+                            <input type="text" name="birthday" id="birthday" class="datepicker" required>
+                            <label for="birthday">Enter date of birth</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12 m8">
+                            <i class="material-icons prefix">edit</i>
+                            <input id="password" name="password" type="password" class="validate" required="">
+                            <label for="password">Password</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12 m8">
+                            <i class="material-icons prefix">edit</i>
+                            <input id="repassword" type="password" class="validate" required="">
+                            <label for="repassword">Re-enter Password</label>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="input-field col s12 m8">
+                            <i class="material-icons prefix">image</i>
+                            <input id="image" name="image" type="file" class="validate" required="">
+                            <p for="image">Select Profile Image</p>
+                        </div>
+                    </div>
+
+                    <div class = "preloader-wrapper big active" id="loader" style="display:none">
+                        <div class = "spinner-layer spinner-teal-only">
+                            <div class = "circle-clipper left">
+                                <div class = "circle"></div>
+                            </div>
+
+                            <div class = "gap-patch">
+                                <div class = "circle"></div>
+                            </div>
+                            <div class = "circle-clipper right">
+                                <div class = "circle"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="button" class="row">
+                        <div class="input-field col s12 m8">
+                            <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Register</a>
+                        </div>
+                    </div>
+
+                    <div id="modal1" class="modal">
+                        <div class="modal-content">
+                            <h4>Terms and Conditions</h4>
+                            <p>*Some Terms and conditions*</p>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" name="register" class="waves-effect waves-light btn" value="I Agree">
+                        </div>
+                    </div>
+
+                    {{ form.as_p }}
+                </form>
+            </div>
+        </div>
+
+    <footer class="page-footer dark  grey darken-3">
+            <div class="container">
+                <div class="row">
+                    <div class="col l6 s12">
+                        <h5 class="white-text">CodeNicely</h5>
+                        <p class="grey-text text-lighten-4">We see AI as new frontire in our mission to empower the Startups!</p>
+                    </div>
+                    <div class="col l4 offset-l2 s12">
+                        <h5 class="white-text">Social Links</h5>
+                        <ul>
+                            <li><a class="grey-text text-lighten-3" href="https://www.facebook.com/CodeNicely/" target="_blank"><i class="material-icons">face</i>Facebook</a></li>
+                            <li><a class="grey-text text-lighten-3" href="https://www.linkedin.com/company-beta/13260912/" target="_blank"><i class="material-icons">face</i>LinkedIn</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-copyright">
+                <div class="container">
+                    © 2018 Codenicely
+                </div>
+            </div>
+    </footer>
 
     </body>
 

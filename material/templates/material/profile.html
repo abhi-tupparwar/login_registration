@@ -14,10 +14,14 @@
             <div class="nav-wrapper container">
                 <a id="logo-container" class="brand-logo">CodeNicely</a>
                 <ul class="right hide-on-med-and-down">
+                    <li><a href="/">Home</a></li>
+                    <li class="active"><a>Profile</a></li>
                     <li><a href="/logout">Logout</a></li>
                 </ul>
 
                 <ul id="nav-mobile" class="sidenav">
+                    <li><a href="/">Home</a></li>
+                    <li class="active"><a>Profile</a></li>
                     <li><a href="/logout">Logout</a></li>
                 </ul>
                 <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons icon-gray">menu</i></a>
@@ -31,13 +35,35 @@
                 <div class="col s6">
                     <h1>Hello, </h1> <h3>{{details.uname}}</h3>
                 </div>
+                <div class="col s12 m6">
+                    <br>
+                    <div class="card blue-grey darken-1">
+                        <div class="card-content white-text">
+                            <span class="card-title">Profile Details</span>
+                            {% if  details.verified %}
+                                {% with patient as p %}
+                                    <a class="btn-floating pulse"><i class="material-icons">verified_user</i></a>&nbsp&nbsp {{details.email}}
+                                {% endwith %}
 
-                <div class="col s12">
-                    <a class="btn-floating pulse"><i class="material-icons">{% if  details.verified %}
-    {% with patient as p %}done{% endwith %}
-{% else %}
-    {% with patient.parent as p %}error{% endwith %}{%endif%}</i></a>&nbsp&nbsp {{details.email}}
-                    <br><br>
+                            {% else %}
+                                {% with patient.parent as p %}
+                                    <a class="btn-floating pulse"><i class="material-icons">error</i></a>&nbsp&nbsp {{details.email}}
+                                {% endwith %}
+                            {%endif%}
+                            <p style="padding-left:3em"><b>City:</b> {{details.city}} <b style="padding-left:1em">Gender:</b>{{details.gender}}
+                            <br><b>DOB:</b> {{details.dob}}
+                            </p>
+
+                        </div>
+                        <div class="card-image">
+                          <img src="../media/{{details.pic}}">
+                        </div>
+                        <div class="card-action">
+                            <a href="/editprofile">Edit Details</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m8">
                     <h4>Other Member Details:</h4>
                 </div>
             </div>
@@ -63,7 +89,41 @@
         </div>
     </div>
 
+    <footer class="page-footer dark  grey darken-3">
+            <div class="container">
+                <div class="row">
+                    <div class="col l6 s12">
+                        <h5 class="white-text">CodeNicely</h5>
+                        <p class="grey-text text-lighten-4">We see AI as new frontire in our mission to empower the Startups!</p>
+                    </div>
+                    <div class="col l4 offset-l2 s12">
+                        <h5 class="white-text">Social Links</h5>
+                        <ul>
+                            <li><a class="grey-text text-lighten-3" href="https://www.facebook.com/CodeNicely/" target="_blank"><i class="material-icons">face</i>Facebook</a></li>
+                            <li><a class="grey-text text-lighten-3" href="https://www.linkedin.com/company-beta/13260912/" target="_blank"><i class="material-icons">face</i>LinkedIn</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-copyright">
+                <div class="container">
+                    © 2018 Codenicely
+                </div>
+            </div>
+    </footer>
+
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+    {% if messages %}
+        <script>
+            $( document ).ready(function() {
+            {% for message in messages %}
+                alert("{{ message }}")
+            {% endfor %}
+        });
+        </script>
+    {% endif %}
+
     <script src="{% static 'material/js/materialize.js' %}"></script>
     <script src="{% static 'material/js/init.js' %}"></script>
 

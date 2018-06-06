@@ -82,6 +82,9 @@ DATABASES = {
 }
 
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
 
@@ -123,6 +126,6 @@ STATIC_ROOT = 'path/to/static_root'
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
+EMAIL_HOST_USER = 'abhitupparwar@gmail.com'
+EMAIL_HOST_PASSWORD = 'abhiABHISHEK'
 EMAIL_PORT = 587

@@ -7,6 +7,7 @@ urlpatterns = [
     url(r'^login/', views.login),
     url(r'^signup/', views.signup),
     url(r'logout/', views.logout),
+    url(r'^editprofile/$', views.editprofile, name='account'),
     url(r'^account/$', views.account, name='account'),
     url(r'^ajax/validate_emai/', views.validate_emai, name='validate-email'),
     url(r'^ajax/validate_user/', views.validate_user),

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CodeNicely|Edit Profile</title>
+    {% load staticfiles %}
+    <link href="{% static 'material/css/materialize.css' %}" type="text/css" rel="stylesheet"/>
+    <link href="{% static 'material/css/style.css' %}" type="text/css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="white" role="navigation">
+            <div class="nav-wrapper container">
+                <a id="logo-container" class="brand-logo">CodeNicely</a>
+                <ul class="right hide-on-med-and-down">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/account">Profile</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                </ul>
+
+                <ul id="nav-mobile" class="sidenav">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/account">Profile</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                </ul>
+                <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons icon-gray">menu</i></a>
+            </div>
+    </nav>
+
+    <div class="container">
+        <br>
+            <div class="row">
+                <form class="col s12 m8  offset-l3" method="POST" action="" id="loginform" onsubmit="return checkForm(this);">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="input-field col s12 m8">
+                            <i class="material-icons prefix">person</i>
+                            <input id="name" name="name" type="text" class="validate" required="">
+                            <label for="name">Name</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12 m8">
+                            <i class="material-icons prefix">email</i>
+                            <input id="email" name="email" type="email" class="validate" required="">
+                            <label for="email">Email</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12 m8">
+                            <i class="material-icons prefix">edit_location</i>
+                            <input type="search" id="autocomplete-input" name="city" class="autocomplete" required>
+                            <label for="autocomplete-input">City</label>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="input-field col s12 m8">
+                            <i class="material-icons prefix">date_range</i>
+                            <input type="text" name="dob" id="dob" class="datepicker" required>
+                            <label for="dob">Enter date of birth</label>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="input-field col s12 m8">
+                            <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Register</a>
+                        </div>
+                    </div>
+
+                    <div id="modal1" class="modal">
+                        <div class="modal-content">
+                            <h4>Note</h4>
+                            <p>Do you Agree to make the changes?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" name="register" class="waves-effect waves-light btn" value="I Agree">
+                        </div>
+                    </div>
+
+                    {{ form.as_p }}
+                </form>
+            </div>
+        </div>
+
+    <footer class="page-footer dark  grey darken-3">
+            <div class="container">
+                <div class="row">
+                    <div class="col l6 s12">
+                        <h5 class="white-text">CodeNicely</h5>
+                        <p class="grey-text text-lighten-4">We see AI as new frontire in our mission to empower the Startups!</p>
+                    </div>
+                    <div class="col l4 offset-l2 s12">
+                        <h5 class="white-text">Social Links</h5>
+                        <ul>
+                            <li><a class="grey-text text-lighten-3" href="https://www.facebook.com/CodeNicely/" target="_blank"><i class="material-icons">face</i>Facebook</a></li>
+                            <li><a class="grey-text text-lighten-3" href="https://www.linkedin.com/company-beta/13260912/" target="_blank"><i class="material-icons">face</i>LinkedIn</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-copyright">
+                <div class="container">
+                    © 2018 Codenicely
+                </div>
+            </div>
+    </footer>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+
+    <script>
+            $("#email").change(function () {
+              var email = $(this).val();
+              $.ajax({
+                url: '/ajax/validate_emai/',
+                data: {
+                  'email': email
+                },
+                dataType: 'json',
+                success: function (data) {
+                  if (data.is_taken) {
+                    alert("A user with this username already exists.");
+                    $("#email").val("");
+                  }
+                }
+              });
+
+            });
+    </script>
+
+    <script>
+            $(document).ready(function(){
+
+                $('.autocomplete').autocomplete({
+                    data: {
+                        "Apple": null,
+                        "Microsoft": null,
+                        "Google": null,
+                    }
+                });
+
+                $("#name").val("{{details.uname}}");
+                $("#email").val("{{details.email}}");
+                $("#autocomplete-input").val("{{details.city}}");
+                $("#dob").val("{{details.dob}}");
+
+                $('.modal').modal();
+
+                $('.datepicker').datepicker();
+            });
+    </script>
+
+    <script src="{% static 'material/js/materialize.js' %}"></script>
+    <script src="{% static 'material/js/init.js' %}"></script>
+
+</body>
+</html>

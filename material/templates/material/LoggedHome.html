@@ -16,42 +16,14 @@
                             <a id="logo-container" class="brand-logo">CodeNicely</a>
                             <ul class="right hide-on-med-and-down">
                                 <li class="active"><a>Home</a></li>
-                                <li><a href="/login">Login</a></li>
-                                <li><a href="/signup" class="tooltipped" data-position="bottom" data-tooltip="Join Us & Explore More">Sign-Up</a></li>
+                                <li><a href="/account">Profile</a></li>
+                                <li><a href="/logout">Logout</a></li>
                             </ul>
                             <ul id="nav-mobile" class="sidenav">
                                 <li class="active"><a>Home</a></li>
-                                <li><a href="/login">Login</a></li>
-                                <li><a href="/signup">Sign-Up</a></li>
+                                <li><a href="/account">Profile</a></li>
+                                <li><a href="/logout">Logout</a></li>
                             </ul>
-                            <!--<ul class="right hide-on-med-and-down">
-                                <li class="active"><a>Home</a></li>
-                                {% if check %}
-                                    {% with patient as p %}
-                                        <li><a href="/account">Profile</a></li>
-                                        <li><a href="/logout">Logout</a></li>
-                                    {% endwith %}
-                                {% else %}
-                                    {% with patient.parent as p %}
-                                        <li><a href="/login">Login</a></li>
-                                        <li><a href="/signup" class="tooltipped" data-position="bottom" data-tooltip="Join Us & Explore More">Sign-Up</a></li>
-                                    {% endwith %}
-                                {% endif %}
-                            </ul>
-                            <ul id="nav-mobile" class="sidenav">
-                                <li class="active"><a>Home</a></li>
-                                {% if check %}
-                                    {% with patient as p %}
-                                        <li><a href="/account">Profile</a></li>
-                                        <li><a href="/logout">Logout</a></li>
-                                    {% endwith %}
-                                {% else %}
-                                    {% with patient.parent as p %}
-                                        <li><a href="/login">Login</a></li>
-                                        <li><a href="/signup">Sign-Up</a></li>
-                                    {% endwith %}
-                                {% endif %}
-                            </ul>-->
                             <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons icon-gray">menu</i></a>
                         </div>
                 </nav>
@@ -96,7 +68,6 @@
                 </div>
             </div>
         </footer>
-
         <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
         <script>
             $(document).ready(function(){
@@ -104,7 +75,7 @@
                 $('.tooltipped').tooltip();
             });
             setTimeout(function() {
-                  M.toast({html: 'Welcome to CodeNicely!', classes: 'rounded', displayLength: 2000});
+                  M.toast({html: 'Welcome to CodeNicely!', classes: 'rounded'});
                 }, 2000);
         </script>
         <script src="{% static 'material/js/materialize.js' %}"></script>
