@@ -107,7 +107,8 @@ def signup(request):
                 return render(request, 'material/register.html')
 
         except Exception as e:
-            user.delete()
+            if user != None:
+                user.delete()
             return render(request, 'material/404.html')
 
 
