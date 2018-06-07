@@ -12,3 +12,12 @@ class MyUsers(models.Model):
 
     def __str__(self):
         return self.uname + ' - ' + self.email + ' - ' + self.password + ' - ' + str(self.verified) + ' - ' + str(self.gender) + ' - ' + str(self.city) + ' - ' + str(self.dob) + ' - ' + str(self.pic)
+
+
+class Gallery(models.Model):
+    email = models.CharField(max_length=250)
+    pic = models.ImageField(upload_to='pictures/Gallery/')
+
+    def __str__(self):
+        return self.email + ' - ' + str(self.pic)
+

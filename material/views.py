@@ -1,5 +1,6 @@
 import ast
 import json
+import os
 
 import jwt
 from django.contrib.sites.shortcuts import get_current_site
@@ -15,7 +16,7 @@ from django.utils.http import urlsafe_base64_encode
 from django.views.decorators.cache import cache_control
 from django.views.decorators.csrf import csrf_exempt
 
-from material.models import MyUsers
+from material.models import MyUsers, Gallery
 
 
 def index(request):
@@ -37,15 +38,31 @@ def login(request):
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def account(request):
     if request.session.get('email', None):
+
         email = request.session['email']
         result = MyUsers.objects.get(email=email)
+
+        if request.method == 'POST' and request.POST.get('register') == 'Upload':
+            image = request.FILES.get('image')
+            os.remove(result.pic.file.name)
+            result.pic = image
+            result.save()
+            return redirect('/account')
+        if request.method == 'POST' and request.POST.get('gallery') == 'Upload':
+            for afile in request.FILES.getlist('images'):
+                gallery = Gallery.objects.create(email=email, pic=afile)
+
+
         all_result = MyUsers.objects.exclude(email=email)
+        pics = Gallery.objects.filter(email=email)
+
         context = {'details': result,
+                   'gallery': pics,
                    'all_members': all_result,
                    'domain': 'href= //mail.'+email.split('@')[1]}
         return render(request, 'material/profile.html', context)
     else:
-        return HttpResponse('<script>if (window.confirm("Please Login Again !!!")) { window.location.href = "/login"; }else { window.location.href = "login"; } </script>')
+        return HttpResponse('<script>if (window.confirm("Please Login Again !!!")) { window.location.href = "/login"; }else { window.location.href = "/login"; } </script>')
 
 
 def logout(request):
@@ -147,7 +164,16 @@ def editprofile(request):
                 dob = request.POST.get("dob")
                 city = request.POST.get("city")
                 edit_user = MyUsers.objects.get(email=request.session['email'])
-                edit_user.uname = newname
+
+                if newname != edit_user.uname:
+                    edit_user.uname = newname
+
+                if dob != edit_user.dob:
+                    edit_user.dob = dob
+
+                if city != edit_user.city:
+                    edit_user.city = city
+
                 if newemail != request.session['email']:
                     edit_user.email = newemail
                     current_site = get_current_site(request)
@@ -163,9 +189,6 @@ def editprofile(request):
                               recipient_list=[newemail], fail_silently=False)
                     edit_user.verified = False
 
-
-                edit_user.dob = dob
-                edit_user.city = city
                 edit_user.save()
                 print(1)
                 request.session['email'] = newemail

@@ -13,6 +13,7 @@
     <nav class="white" role="navigation">
             <div class="nav-wrapper container">
                 <a id="logo-container" class="brand-logo">CodeNicely</a>
+
                 <ul class="right hide-on-med-and-down">
                     <li><a href="/">Home</a></li>
                     <li class="active"><a>Profile</a></li>
@@ -32,8 +33,31 @@
 
         <div class="row">
             <div class="col 12">
-                <div class="col s6">
+                <div class="col s12 m6">
                     <h1>Hello, </h1> <h3>{{details.uname}}</h3>
+                    <div class="col s12 m8">
+                        <h4>Other Member Details:</h4>
+                    </div>
+
+                    <div class="col s12 m12 z-depth-3">
+                        <table class="highlight centered">
+                            <thead>
+                              <tr>
+                                  <th>Name</th>
+                                  <th>Email</th>
+                              </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for member in all_members %}
+                                  <tr>
+                                    <td>{{member.uname}}</td>
+                                    <td>{{member.email}}</td>
+                                  </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <div class="col s12 m6">
                     <br>
@@ -50,43 +74,110 @@
                                     <a class="btn-floating pulse"><i class="material-icons">error</i></a>&nbsp&nbsp {{details.email}}
                                 {% endwith %}
                             {%endif%}
-                            <p style="padding-left:3em"><b>City:</b> {{details.city}} <b style="padding-left:1em">Gender:</b>{{details.gender}}
-                            <br><b>DOB:</b> {{details.dob}}
+                            <p style="padding-left:3em"><b>City: </b> {{details.city}} <b style="padding-left:1em">Gender: </b>{{details.gender}}
+                            <br><b>DOB: </b>{{details.dob}}
                             </p>
 
                         </div>
                         <div class="card-image">
-                          <img src="../media/{{details.pic}}">
+                          <img src="../media/{{details.pic}}" class="circle" alt="">
                         </div>
                         <div class="card-action">
-                            <a href="/editprofile">Edit Details</a>
+                            <a class="waves-effect waves-light btn modal-trigger" href="/editprofile">Edit Details</a><br><br>
+                            <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Change Picture</a><br><br>
+                            <a class="waves-effect waves-light btn modal-trigger" href="#modal2">Gallery</a>
                         </div>
                     </div>
                 </div>
-                <div class="col s12 m8">
-                    <h4>Other Member Details:</h4>
-                </div>
-            </div>
-            <div class="col s12 m6 z-depth-3">
-                <table class="highlight centered">
-                    <thead>
-                      <tr>
-                          <th>Name</th>
-                          <th>Email</th>
-                      </tr>
-                    </thead>
-
-                    <tbody>
-                        {% for member in all_members %}
-                          <tr>
-                            <td>{{member.uname}}</td>
-                            <td>{{member.email}}</td>
-                          </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
             </div>
         </div>
+        <div class="row" id="progress">
+            <div class="progress">
+                <div class="indeterminate"></div>
+            </div>
+        </div>
+        <div class="row" id="gallery">
+            <div class="carousel carousel-slider">
+                {% for pic in gallery %}
+                    <a class="carousel-item"><img src="../media/{{pic.pic}}"></a>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+
+    <div id="modal1" class="modal">
+        <form method="POST" enctype="multipart/form-data" action="">
+            {% csrf_token %}
+            <div class="modal-content">
+                <div class="row">
+                    <div class="input-field col s12 m8">
+                        <i class="material-icons prefix">image</i>
+                        <input id="image" name="image" type="file" class="validate" required="">
+                        <p for="image">Select Profile Image</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer" id="loader" style="display:none">
+                <div class = "preloader-wrapper active" >
+                    <div class = "spinner-layer spinner-teal-only">
+                        <div class = "circle-clipper left">
+                            <div class = "circle"></div>
+                        </div>
+
+                        <div class = "gap-patch">
+                            <div class = "circle"></div>
+                        </div>
+                        <div class = "circle-clipper right">
+                            <div class = "circle"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer" id="button">
+                <input type="submit"  name="register" class="waves-effect waves-light btn" value="Upload">
+            </div>
+            {{ form.as_p }}
+        </form>
+    </div>
+
+    <div id="modal2" class="modal">
+        <form method="POST" enctype="multipart/form-data" action="">
+            {% csrf_token %}
+            <div class="modal-content">
+                <div class="row">
+                    <div class="input-field col s12 m8">
+                        <i class="material-icons prefix">image</i>
+                        <input id="images" name="images" type="file" multiple class="validate" required="">
+                        <p for="images">Select Profile Image</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer" id="loader2" style="display:none">
+                <div class = "preloader-wrapper active" >
+                    <div class = "spinner-layer spinner-teal-only">
+                        <div class = "circle-clipper left">
+                            <div class = "circle"></div>
+                        </div>
+
+                        <div class = "gap-patch">
+                            <div class = "circle"></div>
+                        </div>
+                        <div class = "circle-clipper right">
+                            <div class = "circle"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer" id="button2">
+                <input type="submit"  name="gallery" class="waves-effect waves-light btn" value="Upload">
+            </div>
+            {{ form.as_p }}
+        </form>
     </div>
 
     <footer class="page-footer dark  grey darken-3">
@@ -114,13 +205,117 @@
 
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 
+    <script>
+            $("#image").change(function() {
+                M.toast({html: 'Please Wait while we check your Image !!', classes: 'rounded', displayLength: 2000});
+                $("#loader").show()
+                $("#button").hide()
+
+                var file = this.files[0];
+                var fileType = file["type"];
+                console.log(fileType);
+                var validImageTypes = ["image/gif", "image/jpeg", "image/png"];
+                console.log(validImageTypes);
+                if ($.inArray(fileType, validImageTypes) > 0) {
+
+                    var maxFileSize = 2048000;
+                    var fileSize;
+                    fileSize = this.files[0].size;
+
+                    if (fileSize < maxFileSize) {
+                        setTimeout(function() {
+                            $("#loader").hide()
+                            $("#button").show()
+                            M.toast({html: 'You can now Register !!', classes: 'rounded', displayLength: 2000});
+                        }, 3000);
+                    } else {
+                        setTimeout(function() {
+                            $("#loader").hide()
+                            $("#button").show()
+                            $("#button").val("")
+                            M.toast({html: 'Image Too big !!', classes: 'rounded', displayLength: 2000});
+                        }, 3000);
+                    }
+                }
+                else{
+                    setTimeout(function() {
+                            $("#loader").hide()
+                            $("#button").show()
+                            $("#button").val("")
+                            M.toast({html: 'Select an Image to uplooad !!', classes: 'rounded', displayLength: 2000});
+                        }, 3000);
+                }
+            });
+
+            $("#images").change(function() {
+                M.toast({html: 'Please Wait while we check your Image !!', classes: 'rounded', displayLength: 2000});
+                $("#loader2").show()
+                $("#button2").hide()
+
+                for(var i =0; i < images.files.length; i++)
+                {
+                    var file = this.files[i];
+                    var fileType = file["type"];
+                    console.log(fileType);
+                    var validImageTypes = ["image/gif", "image/jpeg", "image/png"];
+                    console.log(validImageTypes);
+                    if ($.inArray(fileType, validImageTypes) > 0) {
+
+                        var maxFileSize = 2048000;
+                        var fileSize;
+                        fileSize = this.files[0].size;
+
+                        if (fileSize < maxFileSize) {
+                            setTimeout(function() {
+                                $("#loader2").hide()
+                                $("#button2").show()
+                                M.toast({html: 'You can now Upload!!', classes: 'rounded', displayLength: 2000});
+                            }, 3000);
+                            break;
+                        } else {
+                            setTimeout(function() {
+                                $("#loader2").hide()
+                                $("#button2").show()
+                                M.toast({html: 'Make Sure Every image is less than 2mb !!', classes: 'rounded', displayLength: 2000});
+                            }, 3000);
+                            break;
+                        }
+                    }
+                    else{
+                        setTimeout(function() {
+                                $("#loader").hide()
+                                $("#button").show()
+                                $("#button").val("")
+                                M.toast({html: 'Select only Image to uplooad !!', classes: 'rounded', displayLength: 2000});
+                        }, 3000);
+                        break;
+                    }
+                }
+            });
+
+        </script>
+
+    <script>
+            $(document).ready(function(){
+                $('.modal').modal();
+                $('.carousel.carousel-slider').carousel({
+                    fullWidth: true
+                  });
+                $("#gallery").hide()
+            });
+            $(window).bind("load", function() {
+                $("#progress").hide()
+                $("#gallery").show()
+            });
+    </script>
+
     {% if messages %}
         <script>
             $( document ).ready(function() {
-            {% for message in messages %}
-                alert("{{ message }}")
-            {% endfor %}
-        });
+                {% for message in messages %}
+                    alert("{{ message }}")
+                {% endfor %}
+            });
         </script>
     {% endif %}
 
