@@ -177,6 +177,7 @@ def editprofile(request):
 
                 if newemail != request.session['email']:
                     edit_user.email = newemail
+                    Gallery.objects.filter(email = request.session['email']).update(email = newemail)
                     current_site = get_current_site(request)
                     template = get_template('material/contact_template.txt')
                     context = {

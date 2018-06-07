@@ -25,7 +25,7 @@ SECRET_KEY = '9+a@(1*41n)4&$ludabw=vsae1m&5^nn3ip0d9sclv1l&9f-j3'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['159.89.170.40']
+ALLOWED_HOSTS = ['159.89.170.40','127.0.0.1']
 
 
 # Application definition

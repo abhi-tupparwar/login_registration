@@ -149,6 +149,12 @@
 
                 $('.datepicker').datepicker();
             });
+
+            $("#loginform").submit(function() {
+                $("#loader").show();
+                $("#button").hide();
+                $('.modal').modal(close());
+            });
     </script>
 
     <script src="{% static 'material/js/materialize.js' %}"></script>
