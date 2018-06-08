@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="21a5a477-61f6-43df-a1b2-000d426a4721" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/media/pictures/Gallery/1254_TF6T4r2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media/pictures/Gallery/abcd_KFNa15k.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/media/pictures/abcd_zyFbWig.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MaterializedDjango/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/MaterializedDjango/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/material/templates/material/profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/material/templates/material/profile.html" afterDir="false" />
-    </list>
+    <list default="true" id="21a5a477-61f6-43df-a1b2-000d426a4721" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -145,10 +137,10 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="43" />
-    <option name="y" value="-4" />
-    <option name="width" value="1323" />
-    <option name="height" value="772" />
+    <option name="x" value="42" />
+    <option name="y" value="-11" />
+    <option name="width" value="1325" />
+    <option name="height" value="780" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
