@@ -96,14 +96,17 @@
                 <div class="indeterminate"></div>
             </div>
         </div>
-        <div class="row" id="gallery">
-            <div class="carousel carousel-slider">
-                {% for pic in gallery %}
-                    <a class="carousel-item"><img src="../media/{{pic.pic}}"></a>
-                {% endfor %}
-            </div>
-        </div>
-
+        {% if  gallery %}
+            {% with patient as p %}
+                <div class="row" id="gallery">
+                    <div class="carousel carousel-slider">
+                        {% for pic in gallery %}
+                            <a class="carousel-item"><img src="../media/{{pic.pic}}"></a>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endwith %}
+        {%endif%}
     </div>
 
     <div id="modal1" class="modal">
